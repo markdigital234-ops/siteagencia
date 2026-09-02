@@ -230,6 +230,11 @@
     width: 700px; height: 700px;
     background: radial-gradient(circle, #EFF6FF 0%, transparent 70%);
     pointer-events: none;
+    z-index: 0;
+  }
+  #hero .container {
+    position: relative;
+    z-index: 1;
   }
   .hero-inner {
     display: grid;
@@ -590,6 +595,73 @@
     .footer-links { flex-wrap: wrap; gap: 16px; }
   }
 
+  /* ── PORTFOLIO ── */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .portfolio-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--white);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .portfolio-card:hover {
+    box-shadow: 0 8px 32px rgba(37,99,235,.1);
+    transform: translateY(-3px);
+  }
+  .portfolio-img-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--bg-alt);
+    position: relative;
+  }
+  .portfolio-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .3s;
+  }
+  .portfolio-card:hover .portfolio-img-wrap img {
+    transform: scale(1.03);
+  }
+  .portfolio-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .portfolio-info {
+    padding: 16px 18px 18px;
+  }
+  .portfolio-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 3px;
+  }
+  .portfolio-type {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+  @media (max-width: 480px) {
+    .portfolio-grid { grid-template-columns: 1fr; }
+  }
+
   /* ── QUEM SOMOS ── */
   .team-grid {
     display: grid;
@@ -673,6 +745,7 @@
       <li><a href="#servicos">Serviços</a></li>
       <li><a href="#como-funciona">Como funciona</a></li>
       <li><a href="#quem-somos">Quem somos</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
       <li><a href="#diferenciais">Por que a EscalaHQ</a></li>
       <li><a href="#depoimentos">Depoimentos</a></li>
       <li><a href="https://wa.me/5585998246803?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20EscalaHQ%20e%20quero%20saber%20mais%20sobre%20os%20servi%C3%A7os." target="_blank" class="nav-cta">Falar no WhatsApp</a></li>
@@ -690,6 +763,7 @@
   <a href="#servicos" onclick="closeMenu()">Serviços</a>
   <a href="#como-funciona" onclick="closeMenu()">Como funciona</a>
   <a href="#quem-somos" onclick="closeMenu()">Quem somos</a>
+  <a href="#portfolio" onclick="closeMenu()">Portfólio</a>
   <a href="#diferenciais" onclick="closeMenu()">Por que a EscalaHQ</a>
   <a href="#depoimentos" onclick="closeMenu()">Depoimentos</a>
   <a href="https://wa.me/5585998246803?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20EscalaHQ%20e%20quero%20saber%20mais%20sobre%20os%20servi%C3%A7os." target="_blank" class="mob-cta" onclick="closeMenu()">Falar no WhatsApp</a>
@@ -776,7 +850,7 @@
           <li>Design profissional e responsivo</li>
           <li>Landing pages para campanhas</li>
           <li>Integração com WhatsApp</li>
-          <li>Entrega em até 10 dias úteis</li>
+          <li>Entrega em até 2 dias úteis</li>
         </ul>
       </div>
 
@@ -810,12 +884,12 @@
     <div class="steps-grid">
       <div class="step">
         <div class="step-num">1</div>
-        <p class="step-title">Reunião de diagnóstico</p>
+        <p class="step-title">Conversa de diagnóstico</p>
         <p class="step-desc">Você nos conta sobre o seu negócio, seus clientes e onde quer chegar. Nós identificamos o que está travando o crescimento.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <p class="step-title">Plano personalizado</p>
+        <p class="step-title">Reunião e proposta</p>
         <p class="step-desc">Montamos uma proposta com os serviços certos para o seu momento, com prazo e investimento definidos sem surpresa.</p>
       </div>
       <div class="step">
@@ -833,7 +907,7 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Quem está por trás da EscalaHQ</h2>
-      <p class="section-sub">Somos uma dupla com especialidades complementares. Cada projeto passa pelas mãos de quem realmente entende do que está fazendo.</p>
+      <p class="section-sub">Somos uma equipe com especialidades complementares. Cada projeto passa pelas mãos de quem realmente entende do que está fazendo.</p>
     </div>
     <div class="team-grid">
       <div class="team-card">
@@ -922,6 +996,79 @@
         <div>
           <p class="diff-title">Equipe especializada</p>
           <p class="diff-desc">Profissionais com experiência em tráfego pago, desenvolvimento web e estratégia de marketing trabalhando no seu projeto.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Portfólio</h2>
+      <p class="section-sub">Alguns dos projetos que entregamos para nossos clientes.</p>
+    </div>
+    <div class="portfolio-grid">
+
+      <div class="portfolio-card">
+        <div class="portfolio-img-wrap">
+          <div class="portfolio-placeholder">Imagem em breve</div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-name">Projeto 1</p>
+          <p class="portfolio-type">Site institucional</p>
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-img-wrap">
+          <div class="portfolio-placeholder">Imagem em breve</div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-name">Projeto 2</p>
+          <p class="portfolio-type">Landing page</p>
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-img-wrap">
+          <div class="portfolio-placeholder">Imagem em breve</div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-name">Projeto 3</p>
+          <p class="portfolio-type">Tráfego pago</p>
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-img-wrap">
+          <div class="portfolio-placeholder">Imagem em breve</div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-name">Projeto 4</p>
+          <p class="portfolio-type">Site institucional</p>
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-img-wrap">
+          <div class="portfolio-placeholder">Imagem em breve</div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-name">Projeto 5</p>
+          <p class="portfolio-type">Landing page</p>
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-img-wrap">
+          <div class="portfolio-placeholder">Imagem em breve</div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-name">Projeto 6</p>
+          <p class="portfolio-type">Tráfego pago</p>
         </div>
       </div>
 
