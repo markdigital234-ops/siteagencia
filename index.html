@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EscalaHQ — Marketing Digital para Pequenas Empresas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #FFFFFF;
+    --bg-alt: #F7F8FA;
+    --navy: #1D3557;
+    --blue: #2563EB;
+    --blue-light: #EFF6FF;
+    --text: #374151;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+    --font: 'Plus Jakarta Sans', sans-serif;
+    --radius: 12px;
+    --max: 1100px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow .2s;
+  }
+  nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,.06); }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+  }
+  .logo span { color: var(--blue); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: color .15s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue);
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    transition: background .15s !important;
+  }
+  .nav-cta:hover { background: #1d4ed8 !important; }
+
+  /* hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--navy);
+    border-radius: 2px;
+    transition: .25s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(29,53,87,.5);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+  }
+  .mobile-overlay.open { display: block; }
+  .mobile-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 75%;
+    max-width: 300px;
+    height: 100%;
+    background: var(--white);
+    z-index: 201;
+    padding: 80px 32px 40px;
+    transform: translateX(100%);
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .mobile-drawer.open { transform: translateX(0); }
+  .mobile-drawer a {
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .mobile-drawer .close-btn {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none; border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .mobile-drawer .mob-cta {
+    background: var(--blue);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  /* ── UTILS ── */
+  .container { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  .section { padding: 88px 0; }
+  .section-alt { background: var(--bg-alt); }
+
+  .section-title {
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+  .section-header { margin-bottom: 56px; }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-family: var(--font);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: transform .15s, box-shadow .15s, background .15s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 4px 14px rgba(37,99,235,.3);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  .btn-primary:hover {
+    background: #1d4ed8;
+    box-shadow: 0 6px 20px rgba(37,99,235,.4);
+    animation: none;
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+  }
+  .btn-outline:hover { background: var(--navy); color: white; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(37,99,235,.3); }
+    50% { box-shadow: 0 4px 22px rgba(37,99,235,.55); }
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 64px;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -180px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, #EFF6FF 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero-left {}
+  .hero-tag {
+    display: inline-block;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    letter-spacing: 0.3px;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    max-width: 460px;
+    margin-bottom: 36px;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .hero-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 14px;
+  }
+  .hero-right {
+    background: var(--bg-alt);
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .hero-card-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .pain-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .pain-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .pain-icon {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+    background: var(--blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .hero-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+  .hero-answer {
+    font-size: 0.9rem;
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .service-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    transition: box-shadow .2s, transform .2s, border-color .2s;
+    cursor: default;
+  }
+  .service-card:hover {
+    box-shadow: 0 8px 32px rgba(37,99,235,.1);
+    transform: translateY(-3px);
+    border-color: #BFDBFE;
+  }
+  .service-icon {
+    width: 48px; height: 48px;
+    background: var(--blue-light);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .service-icon svg { width: 22px; height: 22px; }
+  .service-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .service-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .service-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .service-items li {
+    font-size: 0.85rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .service-items li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: calc(16.66% + 28px);
+    right: calc(16.66% + 28px);
+    height: 1px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .step {
+    text-align: center;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .step-num {
+    width: 56px; height: 56px;
+    background: var(--white);
+    border: 2px solid var(--blue);
+    color: var(--blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0 auto 20px;
+  }
+  .step-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .step-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── DIFFERENTIALS ── */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .diff-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .diff-icon {
+    width: 44px; height: 44px;
+    background: var(--blue-light);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .diff-icon svg { width: 20px; height: 20px; }
+  .diff-title {
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .diff-desc {
+    font-size: 0.865rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .testi-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .testi-stars {
+    color: #F59E0B;
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+  .testi-text {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .testi-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .testi-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .testi-biz {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+  }
+
+  /* ── CTA FINAL ── */
+  #cta-final {
+    background: var(--navy);
+    padding: 96px 0;
+    text-align: center;
+  }
+  #cta-final .section-title { color: white; margin-bottom: 16px; }
+  #cta-final .section-sub { color: rgba(255,255,255,.65); margin: 0 auto 40px; }
+  .cta-note {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,.45);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111827;
+    padding: 40px 0;
+    color: rgba(255,255,255,.4);
+    font-size: 0.82rem;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-logo {
+    font-size: 1rem;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .footer-logo span { color: var(--blue); }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    color: rgba(255,255,255,.4);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .footer-links a:hover { color: white; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+
+    #hero { padding-top: 80px; min-height: auto; padding-bottom: 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-right { display: none; }
+    h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
+
+    .services-grid { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+    .steps-grid::before { display: none; }
+    .diff-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+
+    .section { padding: 64px 0; }
+    #cta-final { padding: 72px 0; }
+
+    .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .footer-links { flex-wrap: wrap; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">Escala<span>HQ</span></a>
+    <ul class="nav-links">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#diferenciais">Por que a EscalaHQ</a></li>
+      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#agendar" class="nav-cta">Agendar reunião</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="mobile-drawer" id="drawer">
+  <button class="close-btn" onclick="closeMenu()">✕</button>
+  <a href="#servicos" onclick="closeMenu()">Serviços</a>
+  <a href="#como-funciona" onclick="closeMenu()">Como funciona</a>
+  <a href="#diferenciais" onclick="closeMenu()">Por que a EscalaHQ</a>
+  <a href="#depoimentos" onclick="closeMenu()">Depoimentos</a>
+  <a href="#agendar" class="mob-cta" onclick="closeMenu()">Agendar reunião</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-tag">Marketing digital para pequenas empresas</div>
+        <h1>Mais clientes.<br>Menos achismo.</h1>
+        <p class="hero-sub">
+          A EscalaHQ cuida do seu marketing digital do começo ao fim: tráfego pago, site profissional e estratégia clara para você crescer de forma previsível.
+        </p>
+        <div class="hero-actions">
+          <a href="#agendar" class="btn btn-primary">Agendar reunião gratuita</a>
+          <a href="#servicos" class="btn btn-outline">Ver serviços</a>
+        </div>
+        <p class="hero-note">Reunião sem compromisso. 30 minutos.</p>
+      </div>
+      <div class="hero-right">
+        <p class="hero-card-label">Você se identifica?</p>
+        <ul class="pain-list">
+          <li>
+            <span class="pain-icon">✗</span>
+            Não sabe se o marketing está trazendo clientes de verdade
+          </li>
+          <li>
+            <span class="pain-icon">✗</span>
+            Tem um site que ninguém vê ou que não passa confiança
+          </li>
+          <li>
+            <span class="pain-icon">✗</span>
+            Já tentou impulsionar no Instagram mas não viu resultado
+          </li>
+          <li>
+            <span class="pain-icon">✗</span>
+            Não tem tempo de cuidar do marketing e da empresa ao mesmo tempo
+          </li>
+        </ul>
+        <hr class="hero-divider">
+        <p class="hero-answer">A EscalaHQ resolve isso por você.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="servicos" class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">O que fazemos por você</h2>
+      <p class="section-sub">Três serviços focados em um único resultado: mais clientes chegando até o seu negócio.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+          </svg>
+        </div>
+        <p class="service-name">Tráfego Pago</p>
+        <p class="service-desc">Campanhas no Google e Meta Ads que atraem as pessoas certas, no momento em que elas estão prontas para comprar.</p>
+        <ul class="service-items">
+          <li>Google Ads e Meta Ads</li>
+          <li>Configuração e gestão completa</li>
+          <li>Relatório mensal com resultados</li>
+          <li>Otimização contínua das campanhas</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <p class="service-name">Sites e Landing Pages</p>
+        <p class="service-desc">Um site que não é só bonito. É rápido, passa confiança e converte visitantes em contatos.</p>
+        <ul class="service-items">
+          <li>Design profissional e responsivo</li>
+          <li>Landing pages para campanhas</li>
+          <li>Integração com WhatsApp</li>
+          <li>Entrega em até 10 dias úteis</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+        </div>
+        <p class="service-name">Consultoria de Marketing</p>
+        <p class="service-desc">Para quem quer entender o próprio marketing e ter um plano claro antes de investir qualquer centavo.</p>
+        <ul class="service-items">
+          <li>Diagnóstico do negócio</li>
+          <li>Plano de ação personalizado</li>
+          <li>Definição de canais e orçamento</li>
+          <li>Acompanhamento mensal</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="como-funciona" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Como funciona</h2>
+      <p class="section-sub">Da primeira conversa aos primeiros resultados em três passos.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p class="step-title">Reunião de diagnóstico</p>
+        <p class="step-desc">Você nos conta sobre o seu negócio, seus clientes e onde quer chegar. Nós identificamos o que está travando o crescimento.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p class="step-title">Plano personalizado</p>
+        <p class="step-desc">Montamos uma proposta com os serviços certos para o seu momento, com prazo e investimento definidos sem surpresa.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p class="step-title">Execução e resultado</p>
+        <p class="step-desc">Colocamos tudo no ar, acompanhamos os números e ajustamos o que for necessário. Você recebe relatório e tem acesso direto à equipe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIALS -->
+<section id="diferenciais" class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Por que a EscalaHQ</h2>
+      <p class="section-sub">Agências grandes costumam tratar pequenas empresas como contas de baixa prioridade. A EscalaHQ foi feita diferente.</p>
+    </div>
+    <div class="diff-grid">
+
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="diff-title">Atendimento próximo</p>
+          <p class="diff-desc">Você fala direto com quem executa o seu projeto. Nada de passar por três pessoas antes de ter uma resposta.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="diff-title">Preço justo para o seu porte</p>
+          <p class="diff-desc">Investimento compatível com a realidade de pequenas empresas, sem abrir mão da qualidade de execução.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+        </div>
+        <div>
+          <p class="diff-title">Transparência total</p>
+          <p class="diff-desc">Relatórios mensais claros, sem linguagem técnica. Você sabe exatamente onde cada real está sendo investido e o que está gerando.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="diff-title">Equipe especializada</p>
+          <p class="diff-desc">Profissionais com experiência em tráfego pago, desenvolvimento web e estratégia de marketing trabalhando no seu projeto.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="depoimentos" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">O que nossos clientes dizem</h2>
+      <p class="section-sub">Pequenas empresas que decidiram parar de adivinhar e começaram a crescer com estratégia.</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Antes eu não sabia se meu marketing funcionava. Hoje recebo relatório todo mês e sei exatamente quantos clientes vieram dos anúncios. Valeu muito a parceria."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RM</div>
+          <div>
+            <p class="testi-name">Ricardo M.</p>
+            <p class="testi-biz">Clínica Odontológica, SP</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"O site que eles fizeram foi a melhor decisão que tomei. Em duas semanas eu já estava recebendo mensagem de clientes novos pelo WhatsApp."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">CA</div>
+          <div>
+            <p class="testi-name">Carolina A.</p>
+            <p class="testi-biz">Estúdio de Pilates, MG</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Tentei fazer os anúncios por conta própria e só gastei dinheiro sem resultado. A EscalaHQ ajeitou tudo, o atendimento é rápido e o pessoal explica tudo direitinho."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">FL</div>
+          <div>
+            <p class="testi-name">Fábio L.</p>
+            <p class="testi-biz">Loja de Móveis, RJ</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="agendar" id="cta-final">
+  <div id="cta-final">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title" style="color:white;margin-bottom:16px;">Pronto para ter mais clientes?</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,.65);margin:0 auto 40px;">Agende uma reunião gratuita de 30 minutos. Vamos entender o seu negócio e te dizer exatamente o que faz sentido para você.</p>
+      <a href="https://calendly.com" target="_blank" class="btn btn-primary" style="font-size:1rem;padding:16px 36px;">Agendar reunião gratuita</a>
+      <p class="cta-note">Sem compromisso. Sem enrolação.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">Escala<span>HQ</span></a>
+      <ul class="footer-links">
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#diferenciais">Por que a EscalaHQ</a></li>
+        <li><a href="#agendar">Contato</a></li>
+      </ul>
+      <span>© 2026 EscalaHQ. Todos os direitos reservados.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const overlay = document.getElementById('overlay');
+  const drawer = document.getElementById('drawer');
+
+  function openMenu() {
+    hamburger.classList.add('open');
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.contains('open') ? closeMenu() : openMenu();
+  });
+</script>
+</body>
+</html>
